@@ -10,22 +10,15 @@
 (function() {
     'use strict';
 
-    // WebSocket Hook Script with custom logger
     const hookScript = `
         (function() {
-            // Custom logger function to bypass potential console overrides
             function customLogger(...args) {
                 try {
-                    // Try logging through console.info first (in case console.log is blocked)
                     if (window.console && typeof window.console.info === 'function') {
                         console.info(...args);
-                    } else {
-                        // Fallback method if info is also overridden
-                        alert(args.join(' '));
                     }
                 } catch (error) {
-                    // Fallback in case both console and alert are restricted
-                    alert("Logging failed: " + error);
+                    console.log("Logging failed: " + error);
                 }
             }
 
@@ -55,7 +48,7 @@
 
     const script = document.createElement('script');
 
-    // Use Trusted Types if available
+    // Use Trusted Types API
     if (window.trustedTypes && trustedTypes.createPolicy) {
         const policy = trustedTypes.createPolicy('kxBypass', {
             createScript: (input) => input
